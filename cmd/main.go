@@ -1,16 +1,34 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"time"
+
+	"github.com/shardent/messec-be/config"
+	"github.com/shardent/messec-be/infra/database"
+	"github.com/shardent/messec-be/infra/logger"
 	"github.com/shardent/messec-be/routes"
+	"github.com/spf13/viper"
 )
 
 func main() {
-	r := gin.Default()
+    viper.SetDefault("SERVER_TIMEZONE", "Asia/Jakarta")
+    loc, _ := time.LoadLocation(viper.GetString("SERVER_TIMEZONE"))
+    time.Local = loc
 
-	r.Use(gin.Recovery())
 
-	routes.SetupRoutes(r)
+    if err := config.SetupConfig();err != nil {
+        logger.Fatalf("config SetupConfig() error %s", err)
+    }
 
-    r.Run(":8080")
+    masterDSN, replicaDSN := config.DbConfig()
+
+    if err := database.DbConnection(masterDSN, replicaDSN); err != nil {
+        logger.Fatalf("database DbConnection error : %s", err)
+    }
+
+    migrations.Migrate()
+    router := routes.SetupRoutes()
+
+    logger.Fatalf("%v", router.Run(config.ServerConfig()))
+
 }
