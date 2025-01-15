@@ -1,17 +1,7 @@
 package database
 
-import "gorm.io/gorm"
+import (
+	"github.com/spf13/viper"
+	"gorm.io/gorm"
+)
 
-
-
-func Init() *gorm.DB  {
-
-    dbInstance, err := 
-    
-    return
-}
-
-func connect() (*gorm.DB, error)  {
-    
-    dbUsername 
-}
