@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-type DbConfig struct {
+type DbConfiguration struct {
 	Driver   string
 	Dbname   string
 	Username string
@@ -16,7 +16,7 @@ type DbConfig struct {
 	LogMode  bool
 }
 
-func DbConfiguration() (string, string) {
+func DbConfig() (string, string) {
 	masterDBName := viper.GetString("MASTER_DB_NAME")
 	masterDBUser := viper.GetString("MASTER_DB_USER")
 	masterDBPassword := viper.GetString("MASTER_DB_PASSWORD")
