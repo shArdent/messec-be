@@ -44,7 +44,7 @@ func Infof(format string, args ...interface{}) {
 func Warnf(format string, args ...interface{}) {
 	if logger.Level >= logrus.InfoLevel {
 		entry := logger.WithFields(logrus.Fields{})
-		entry.Warnf(format, args)
+		entry.Warnf(format, args...)
 	}
 }
 
@@ -52,7 +52,7 @@ func Warnf(format string, args ...interface{}) {
 func Errorf(format string, args ...interface{}) {
 	if logger.Level >= logrus.InfoLevel {
 		entry := logger.WithFields(logrus.Fields{})
-		entry.Errorf(format, args)
+		entry.Errorf(format, args...)
 	}
 }
 
@@ -60,7 +60,7 @@ func Errorf(format string, args ...interface{}) {
 func Fatalf(format string, args ...interface{}) {
 	if logger.Level >= logrus.InfoLevel {
 		entry := logger.WithFields(logrus.Fields{})
-		entry.Fatalf(format, args)
+		entry.Fatalf(format, args...)
 	}
 }
 

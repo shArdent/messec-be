@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-type ServerConfig struct {
+type ServerConfiguration struct {
 	Port                 string
 	Secret               string
 	LimitCountPerRequest int64

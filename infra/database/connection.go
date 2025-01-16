@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/spf13/viper"
@@ -38,7 +39,8 @@ func DbConnection(masterDSN, replicaDSN string) error {
 		}))
 	}
 	if err != nil {
-		log.Fatalf("Db connection error")
+        log.Fatalf("Db connection error : ")
+        fmt.Printf("%v", err)
 		return err
 	}
 	DB = db
@@ -48,4 +50,20 @@ func DbConnection(masterDSN, replicaDSN string) error {
 // GetDB connection
 func GetDB() *gorm.DB {
 	return DB
+}
+
+func TestConnection(dsn string) error {
+    testDB, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+    if err != nil {
+        return err
+    }
+    sqlDB, err := testDB.DB()
+    if err != nil {
+        return err
+    }
+    defer sqlDB.Close()
+
+    fmt.Printf("aman")
+
+    return sqlDB.Ping()
 }
