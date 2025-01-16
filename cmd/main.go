@@ -6,6 +6,7 @@ import (
 	"github.com/shardent/messec-be/config"
 	"github.com/shardent/messec-be/infra/database"
 	"github.com/shardent/messec-be/infra/logger"
+	"github.com/shardent/messec-be/infra/migrations"
 	"github.com/shardent/messec-be/router"
 	"github.com/spf13/viper"
 )
@@ -14,8 +15,6 @@ func main() {
 	viper.SetDefault("SERVER_TIMEZONE", "Asia/Jakarta")
 	loc, _ := time.LoadLocation(viper.GetString("SERVER_TIMEZONE"))
 	time.Local = loc
-
-	logger.Infof("ini testing logger")
 
 	if err := config.SetupConfig(); err != nil {
 		logger.Fatalf("config SetupConfig() error %s", err)
@@ -27,7 +26,7 @@ func main() {
 		logger.Fatalf("database DbConnection error : %v", err)
 	}
 
-	database.Migrate()
+	migrations.Migrate()
 
 	router := router.SetupRoutes()
 

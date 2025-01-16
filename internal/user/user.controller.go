@@ -6,22 +6,31 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type UserInterface interface {
-    GetAll(c *gin.Context)
+func GetAll(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"status":  "ok",
+		"message": "hello world",
+	})
 }
 
-type UserController struct {
-	DB any
-}
+func Create(c *gin.Context) {
+	var newUser *User
 
-func NewPersonController(db any) *UserController {
-	return &UserController{DB: db}
-}
+	if err := c.ShouldBindJSON(&newUser); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":  "Invalid Request Data",
+			"detail": err.Error(),
+		})
+	}
 
-func (pc *UserController) GetAll (c *gin.Context) {
-    c.JSON(http.StatusOK, gin.H{
-        "status" : "ok",
-        "message" : "hello world",
+    if err := CreateNew(&newUser); err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{
+            "error" : "Failed to create new user",
+            "detail" : err.Error(),
+        })
+    }
+
+    c.JSON(http.StatusCreated, gin.H{
+        "message" : "User created",
     })
 }
-

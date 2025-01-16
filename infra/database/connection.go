@@ -39,8 +39,8 @@ func DbConnection(masterDSN, replicaDSN string) error {
 		}))
 	}
 	if err != nil {
-        log.Fatalf("Db connection error : ")
-        fmt.Printf("%v", err)
+		log.Fatalf("Db connection error : ")
+		fmt.Printf("%v", err)
 		return err
 	}
 	DB = db
@@ -53,17 +53,17 @@ func GetDB() *gorm.DB {
 }
 
 func TestConnection(dsn string) error {
-    testDB, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-    if err != nil {
-        return err
-    }
-    sqlDB, err := testDB.DB()
-    if err != nil {
-        return err
-    }
-    defer sqlDB.Close()
+	testDB, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		return err
+	}
+	sqlDB, err := testDB.DB()
+	if err != nil {
+		return err
+	}
+	defer sqlDB.Close()
 
-    fmt.Printf("aman")
+	fmt.Printf("aman")
 
-    return sqlDB.Ping()
+	return sqlDB.Ping()
 }
