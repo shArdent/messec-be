@@ -14,17 +14,17 @@ func CreateNew(model interface{}) error {
 	return err
 }
 
-func GetAllUser(model interface{}) ([]*UserDto, error) {
-	var users []User
+func GetAllUser() ([]*UserDto, error) {
+	var user []User
 	var usersDtos []*UserDto
 
-	result := database.DB.Find(&users)
+	result := database.DB.Find(user)
 	if result.Error != nil {
 		logger.Errorf("Failed to get data from db", result.Error)
 		return nil, result.Error
 	}
 
-	for _, user := range users {
+	for _, user := range user {
 		usersDtos = append(usersDtos, &UserDto{
 			ID:        user.ID,
 			Username:  user.Username,

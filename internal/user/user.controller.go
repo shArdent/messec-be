@@ -7,9 +7,17 @@ import (
 )
 
 func GetAll(c *gin.Context) {
+	users, err := GetAllUser()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status": "error",
+			"users":  "Failed to retrieve users",
+		})
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"status":  "ok",
-		"message": "hello world",
+		"status": "ok",
+		"users":  users,
 	})
 }
 
@@ -23,14 +31,14 @@ func Create(c *gin.Context) {
 		})
 	}
 
-    if err := CreateNew(&newUser); err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{
-            "error" : "Failed to create new user",
-            "detail" : err.Error(),
-        })
-    }
+	if err := CreateNew(&newUser); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":  "Failed to create new user",
+			"detail": err.Error(),
+		})
+	}
 
-    c.JSON(http.StatusCreated, gin.H{
-        "message" : "User created",
-    })
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "User created",
+	})
 }
