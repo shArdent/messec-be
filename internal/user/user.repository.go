@@ -5,15 +5,6 @@ import (
 	"github.com/shardent/messec-be/infra/logger"
 )
 
-func CreateNew(model interface{}) error {
-	err := database.DB.Create(model).Error
-	if err != nil {
-		logger.Errorf("error, cannot create new user %v", err)
-	}
-
-	return err
-}
-
 func GetAllUser() ([]*UserDto, error) {
 	var users []User
 	var usersDtos []*UserDto
@@ -39,12 +30,4 @@ func GetAllUser() ([]*UserDto, error) {
 	return usersDtos, nil
 }
 
-func GetUserByEmailOrUsername(existUser ,user *User) error {
-	err := database.DB.Where("email = ?", user.Email).Or("username = ?", user.Username).First(&existUser).Error
-	if err != nil {
-		logger.Errorf("Error query data ", err.Error)
-		return err
-	}
 
-	return nil
-}
