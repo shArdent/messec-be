@@ -18,10 +18,10 @@ func GetAllUser() ([]*UserDto, error) {
 	var users []User
 	var usersDtos []*UserDto
 
-	result := database.DB.Find(&users)
-	if result.Error != nil {
-		logger.Errorf("Failed to get data from db", result.Error)
-		return nil, result.Error
+	err := database.DB.Find(&users).Error
+	if err != nil {
+		logger.Errorf("Failed to get data from db", err)
+		return nil, err
 	}
 
 	for _, user := range users {
@@ -37,4 +37,14 @@ func GetAllUser() ([]*UserDto, error) {
 	}
 
 	return usersDtos, nil
+}
+
+func GetUserByEmailOrEmail(existUser *User, user User) error {
+	err := database.DB.Where("email = ?", user.Email).Or("username = ?", user.Username).First(&existUser).Error
+	if err != nil {
+		logger.Errorf("Error query data ", err.Error)
+		return err
+	}
+
+	return nil
 }

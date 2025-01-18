@@ -2,8 +2,12 @@ package user
 
 import (
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	jwt "github.com/golang-jwt/jwt/v5"
+	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -57,11 +61,29 @@ func Register(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
-	var user *User
+	var user User
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":  "Invalid Request Data",
+			"detail": err.Error(),
+		})
+		return
+	}
+
+	var existUser User
+	err := GetUserByUsernameOrEmail(&user, &existUser)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":  "error",
+			"detail": err.Error(),
+		})
+		return
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(existUser.Password)); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":  "Your Username or Password incorrect",
 			"detail": err.Error(),
 		})
 		return
