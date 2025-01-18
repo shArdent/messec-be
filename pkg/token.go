@@ -7,13 +7,12 @@ import (
 	"github.com/spf13/viper"
 )
 
-func GenerateToken(email, username string, id int) (string, error) {
+func GenerateToken(email, id string) (string, error) {
 	claims := jwt.MapClaims{
-		"issuer":   "mesecret",
-		"username": username,
-		"email":    email,
-		"subject":  id,
-		"exp":      time.Now().Add(time.Hour * 24).Unix(),
+		"issuer":  "mesecret",
+		"email":   email,
+		"subject": id,
+		"exp":     time.Now().Add(time.Hour * 24).Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

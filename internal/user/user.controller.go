@@ -2,12 +2,10 @@ package user
 
 import (
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
-	jwt "github.com/golang-jwt/jwt/v5"
-	"github.com/spf13/viper"
+	"github.com/shardent/messec-be/pkg"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -72,7 +70,7 @@ func Login(c *gin.Context) {
 	}
 
 	var existUser User
-	err := GetUserByUsernameOrEmail(&user, &existUser)
+	err := GetUserByEmailOrUsername(&existUser, &user)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":  "error",
@@ -81,11 +79,24 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(existUser.Password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(existUser.Password), []byte(user.Password)); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":  "Your Username or Password incorrect",
 			"detail": err.Error(),
 		})
 		return
 	}
+
+	token, err := pkg.GenerateToken(existUser.Email, string(existUser.ID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":  "Error server",
+			"detail": err.Error(),
+		})
+		return
+	}
+
+	c.SetCookie("jwt", token, int(time.Hour.Seconds()*24), "/", "localhost", false, true)
+
+	c.JSON(http.StatusOK, gin.H{"status": true, "data": map[string]any{"id": existUser.ID, "email": existUser.Email, "username": existUser.Username}, "token": token, "message": "Berhasil login"})
 }

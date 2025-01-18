@@ -39,7 +39,7 @@ func GetAllUser() ([]*UserDto, error) {
 	return usersDtos, nil
 }
 
-func GetUserByEmailOrEmail(existUser *User, user User) error {
+func GetUserByEmailOrUsername(existUser ,user *User) error {
 	err := database.DB.Where("email = ?", user.Email).Or("username = ?", user.Username).First(&existUser).Error
 	if err != nil {
 		logger.Errorf("Error query data ", err.Error)
