@@ -5,6 +5,7 @@ import (
 	"github.com/shardent/messec-be/internal/auth"
 	"github.com/shardent/messec-be/internal/comment"
 	"github.com/shardent/messec-be/internal/post"
+	"github.com/shardent/messec-be/internal/question"
 	"github.com/shardent/messec-be/internal/user"
 )
 
@@ -15,4 +16,5 @@ func RegisterRoutes(r *gin.Engine) {
 	auth.SetupRoutes(v1group)
 	post.SetupRoutes(v1group)
 	comment.SetupRoutes(v1group)
+    question.SetupRoutes(v1group)
 }
