@@ -14,5 +14,5 @@ func RegisterRoutes(r *gin.Engine) {
 	user.SetupRoutes(v1group)
 	auth.SetupRoutes(v1group)
 	post.SetupRoutes(v1group)
-    comment.SetupRoutes(v1group)
+	comment.SetupRoutes(v1group)
 }
