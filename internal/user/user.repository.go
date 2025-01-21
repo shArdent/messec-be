@@ -25,9 +25,7 @@ func GetAllUser() ([]*UserDto, error) {
 			CreatedAt: user.CreatedAt,
 			UpdatedAt: user.UpdatedAt,
 		})
-	}
+	
 
 	return usersDtos, nil
 }
-
-
