@@ -5,8 +5,8 @@ import (
 	"github.com/shardent/messec-be/infra/logger"
 )
 
-func GetPostsByUserId(userId string) ([]Post, error) {
-	var posts []Post
+func GetPostsByUserId(userId string) (*[]Post, error) {
+	var posts *[]Post
 	err := database.DB.Where("user_id = ?", userId).Find(&posts).Error
 	if err != nil {
 		return nil, err

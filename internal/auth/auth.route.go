@@ -6,5 +6,5 @@ func SetupRoutes(g *gin.RouterGroup) {
 	auth := g.Group("/auth")
 	auth.POST("/register", Register)
 	auth.POST("/login", Login)
-    auth.GET("/logut", Logout)
+    auth.GET("/logout", Logout)
 }

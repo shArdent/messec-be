@@ -86,5 +86,7 @@ func ExtractTokenId(c *gin.Context) (any, error) {
 		return 0, err
 	}
 
+	fmt.Printf("Token claims: %+v\n", claims)
+
 	return claims["subject"], nil
 }

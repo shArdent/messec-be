@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/shardent/messec-be/pkg"
 )
 
 func GetAllPostByUserId(c *gin.Context) {
@@ -26,7 +27,14 @@ func GetAllPostByUserId(c *gin.Context) {
 }
 
 func CreateNewPost(c *gin.Context) {
-	userId := c.Param("user_id")
+	userId, err := pkg.ExtractTokenId(c)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error":  "Error unauthorized",
+			"detail": err.Error(),
+		})
+		return
+	}
 
 	var post Post
 
@@ -38,7 +46,7 @@ func CreateNewPost(c *gin.Context) {
 		return
 	}
 
-	value, err := strconv.ParseUint(userId, 10, 64)
+	value, err := strconv.ParseUint(userId.(string), 10, 64)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":  "Error server",
@@ -49,7 +57,7 @@ func CreateNewPost(c *gin.Context) {
 
 	post.UserID = uint(value)
 
-	if err = CreatePost(post); err != nil {
+	if err = CreatePost(&post); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":  "Error server",
 			"detail": err.Error(),

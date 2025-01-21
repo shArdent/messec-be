@@ -5,10 +5,12 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/shardent/messec-be/pkg"
 )
 
 func PostComment(c *gin.Context) {
 	postId := c.Param("post_id")
+
 	var newComment Comment
 
 	if err := c.ShouldBindJSON(&newComment); err != nil {
@@ -26,6 +28,16 @@ func PostComment(c *gin.Context) {
 			"detail": err.Error(),
 		})
 		return
+	}
+
+	userId, err := pkg.ExtractTokenId(c)
+	if err == nil {
+		conv64UserId, _ := strconv.ParseUint(userId.(string), 10, 64)
+
+		convUintUserId := uint(conv64UserId)
+
+		newComment.UserID = &convUintUserId
+
 	}
 
 	newComment.PostID = uint(value)
