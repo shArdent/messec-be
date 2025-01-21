@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/shardent/messec-be/infra/database"
 )
 
 func GetAllPostByUserId(c *gin.Context) {
@@ -19,7 +18,7 @@ func GetAllPostByUserId(c *gin.Context) {
 		return
 	}
 
-    c.JOSN(http.StatusOk, gin.H{
+    c.JSON(http.StatusOK, gin.H{
         "message" : "Success retrieve post data",
         "posts" : posts,
     })

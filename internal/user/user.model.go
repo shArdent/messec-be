@@ -1,6 +1,7 @@
 package user
 
 import (
+	"go/doc/comment"
 	"time"
 
 	"github.com/shardent/messec-be/internal/post"
@@ -16,6 +17,7 @@ type User struct {
 	Password  string      `gorm:"type:varchar(255);not null"`
 	Bio       *string     `gorm:"type:text;default:null"`
 	Post      []post.Post `gorm:"foreignKey:UserID" json:"posts"`
+    
 }
 
 type UserDto struct {
