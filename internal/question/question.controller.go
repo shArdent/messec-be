@@ -41,3 +41,21 @@ func CreateQuestion(c *gin.Context) {
 		"message": "question created",
 	})
 }
+
+func GetAllQuestionByUserId(c *gin.Context) {
+	userId := c.Param("user_id")
+
+	questions, err := GetQuestionByUserId(userId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":  "Error getting questions data",
+			"detail": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message":   "Success retrieve post data",
+		"questions": questions,
+	})
+}
