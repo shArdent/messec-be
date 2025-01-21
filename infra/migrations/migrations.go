@@ -3,12 +3,13 @@ package migrations
 import (
 	"github.com/shardent/messec-be/infra/database"
 	"github.com/shardent/messec-be/infra/logger"
+	"github.com/shardent/messec-be/internal/comment"
 	"github.com/shardent/messec-be/internal/post"
 	"github.com/shardent/messec-be/internal/user"
 )
 
 func Migrate() {
-	migrationsModels := []interface{}{&user.User{}, &post.Post{}}
+	migrationsModels := []interface{}{&user.User{}, &post.Post{}, &comment.Comment{}}
 
 	err := database.DB.AutoMigrate(migrationsModels...)
 	if err != nil {
