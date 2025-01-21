@@ -2,6 +2,7 @@ package auth
 
 import (
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -73,7 +74,9 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := pkg.GenerateToken(existUser.Email, string(existUser.ID))
+	convUserId := strconv.FormatUint(uint64(existUser.ID), 10)
+
+	token, err := pkg.GenerateToken(existUser.Email, convUserId)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":  "Error server",
@@ -82,7 +85,19 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("jwt", token, int(time.Hour.Seconds()*24), "/", "localhost", false, true)
+	c.SetCookie("access_token", token, int(time.Hour.Seconds()*24), "/", "localhost", false, true)
 
 	c.JSON(http.StatusOK, gin.H{"status": true, "data": map[string]any{"id": existUser.ID, "email": existUser.Email, "username": existUser.Username}, "token": token, "message": "Berhasil login"})
+}
+
+func Logout(c *gin.Context) {
+	_, err := c.Cookie("access_token")
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Not authenticated"})
+		return
+	}
+
+	c.SetCookie("access_token", "", -1, "/", "localhost", false, true)
+
+	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }
