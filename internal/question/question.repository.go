@@ -6,9 +6,9 @@ import (
 )
 
 func Create(model interface{}) error {
-	err := database.DB.Create(&model).Error
+	err := database.DB.Create(model).Error
 	if err != nil {
-		logger.Errorf("Error creating question", err.Error())
+		logger.Errorf("Error creating question", model, err.Error())
 	}
 
 	return err

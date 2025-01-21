@@ -3,6 +3,7 @@ package user
 import (
 	"time"
 
+	"github.com/shardent/messec-be/internal/answer"
 	"github.com/shardent/messec-be/internal/comment"
 	"github.com/shardent/messec-be/internal/post"
 	"github.com/shardent/messec-be/internal/question"
@@ -20,6 +21,7 @@ type User struct {
 	Post      []post.Post         `gorm:"foreignKey:UserID" json:"posts"`
 	Comment   []comment.Comment   `gorm:"foreignKey:UserID" json:"comments"`
 	Question  []question.Question `gorm:"foreignKey:UserID" json:"questions"`
+	Answer    []answer.Answer     `gorm:"foreignKey:UserID" json:"answer"`
 }
 
 type UserDto struct {

@@ -3,6 +3,7 @@ package migrations
 import (
 	"github.com/shardent/messec-be/infra/database"
 	"github.com/shardent/messec-be/infra/logger"
+	"github.com/shardent/messec-be/internal/answer"
 	"github.com/shardent/messec-be/internal/comment"
 	"github.com/shardent/messec-be/internal/post"
 	"github.com/shardent/messec-be/internal/question"
@@ -10,7 +11,7 @@ import (
 )
 
 func Migrate() {
-	migrationsModels := []interface{}{&user.User{}, &post.Post{}, &comment.Comment{}, &question.Question{}}
+	migrationsModels := []interface{}{&user.User{}, &post.Post{}, &comment.Comment{}, &question.Question{}, &answer.Answer{}}
 
 	if database.DB == nil {
 		logger.Warnf("Database connection is nil")

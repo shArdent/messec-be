@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateComment(c *gin.Context) {
+func CreateQuestion(c *gin.Context) {
 	userID := c.Param("user_id")
 	var newQuestion Question
 
@@ -38,6 +38,6 @@ func CreateComment(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
-		"message": "comment created",
+		"message": "question created",
 	})
 }
