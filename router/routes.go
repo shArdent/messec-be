@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/shardent/messec-be/internal/answer"
 	"github.com/shardent/messec-be/internal/auth"
 	"github.com/shardent/messec-be/internal/comment"
 	"github.com/shardent/messec-be/internal/post"
@@ -17,4 +18,5 @@ func RegisterRoutes(r *gin.Engine) {
 	post.SetupRoutes(v1group)
 	comment.SetupRoutes(v1group)
     question.SetupRoutes(v1group)
+    answer.SetupRoutes(v1group)
 }
