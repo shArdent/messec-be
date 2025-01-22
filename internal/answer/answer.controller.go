@@ -9,7 +9,7 @@ import (
 )
 
 func PostAnswer(c *gin.Context) {
-	questionId := c.Param("post_id")
+	questionId := c.Param("question_id")
 
 	var newAnswer Answer
 
