@@ -1,16 +1,21 @@
 package post
 
 import (
+	"fmt"
+
 	"github.com/shardent/messec-be/infra/database"
 	"github.com/shardent/messec-be/infra/logger"
 )
 
-func GetPostsByUserId(userId string) (*[]Post, error) {
-	var posts *[]Post
-	err := database.DB.Where("user_id = ?", userId).Find(&posts).Error
+func GetPostsByUserId(userID string) ([]Post, error) {
+	var posts []Post
+
+    err := database.DB.Preload("Comment").Where("user_id = ?", userID).Order("created_at DESC").Find(&posts).Error
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Printf("%+v", posts)
 
 	return posts, nil
 }

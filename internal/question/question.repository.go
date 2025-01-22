@@ -14,9 +14,9 @@ func Create(model interface{}) error {
 	return err
 }
 
-func GetQuestionByUserId(userId string) (*[]Question, error) {
-	var questions *[]Question
-	err := database.DB.Where("user_id = ?", userId).Find(&questions).Error
+func GetQuestionByUserId(userId string) ([]Question, error) {
+	var questions []Question
+	err := database.DB.Preload("Answer").Where("user_id = ?", userId).Order("created_at DESC").Find(&questions).Error
 	if err != nil {
 		return nil, err
 	}
