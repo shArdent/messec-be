@@ -12,3 +12,12 @@ func CreateComment(model interface{}) error {
 	}
 	return err
 }
+
+func DeleteComment(model interface{}, commentID uint) error {
+	err := database.DB.Delete(model, commentID).Error
+	if err != nil {
+		logger.Errorf("error, deleting comment")
+	}
+
+	return err
+}
