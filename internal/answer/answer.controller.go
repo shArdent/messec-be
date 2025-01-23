@@ -54,3 +54,28 @@ func PostAnswer(c *gin.Context) {
 		"message": "Answer Posted posted",
 	})
 }
+
+func DeleteAnswer(c *gin.Context) {
+	answerID := c.Param("answer_id")
+	convAnswerID, err := strconv.ParseUint(answerID, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":  "Invalid request data",
+			"detail": err.Error(),
+		})
+		return
+	}
+
+	err = Delete(&Answer{}, uint(convAnswerID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":  "Failed to delete comment",
+			"detail": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "answer deleted",
+	})
+}

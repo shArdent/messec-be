@@ -23,3 +23,12 @@ func GetQuestionByUserId(userId string) ([]Question, error) {
 
 	return questions, nil
 }
+
+func Delete(model interface{}, ID uint) error {
+	err := database.DB.Delete(model, ID).Error
+	if err != nil {
+		logger.Errorf("error, deleting comment")
+	}
+
+	return err
+}

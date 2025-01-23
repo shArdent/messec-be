@@ -59,3 +59,28 @@ func GetAllQuestionByUserId(c *gin.Context) {
 		"questions": questions,
 	})
 }
+
+func DeleteQuestion(c *gin.Context) {
+	questionID := c.Param("question_id")
+	convQuestionID, err := strconv.ParseUint(questionID, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":  "Invalid request data",
+			"detail": err.Error(),
+		})
+		return
+	}
+
+	err = Delete(&Question{}, uint(convQuestionID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":  "Failed to delete question",
+			"detail": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Question deleted",
+	})
+}

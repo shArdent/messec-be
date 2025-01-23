@@ -69,3 +69,28 @@ func CreateNewPost(c *gin.Context) {
 		"message": "Success create new post",
 	})
 }
+
+func DeletePost(c *gin.Context) {
+	postID := c.Param("post_id")
+	convPostID, err := strconv.ParseUint(postID, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":  "Invalid request data",
+			"detail": err.Error(),
+		})
+		return
+	}
+
+	err = Delete(&Post{}, uint(convPostID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":  "Failed to delete post",
+			"detail": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Post deleted",
+	})
+}

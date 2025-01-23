@@ -7,5 +7,8 @@ import (
 
 func SetupRoutes(g *gin.RouterGroup) {
 	answer := g.Group("/answers")
-	answer.POST("/:question_id", middlewares.JwtAuthMiddleware(), PostAnswer)
+	answer.Use(middlewares.JwtAuthMiddleware())
+
+	answer.POST("/:question_id", PostAnswer)
+	answer.DELETE("/:answer_id", DeleteAnswer)
 }
