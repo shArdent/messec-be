@@ -12,5 +12,5 @@ type Question struct {
 	Body      string         `json:"body"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
-	Answer    *answer.Answer `gorm:"foreignKey:QuestionID, constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"answer"`
+	Answer    *answer.Answer `gorm:"foreignKey:QuestionID; constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"answer"`
 }

@@ -18,10 +18,10 @@ type User struct {
 	Email     string              `gorm:"type:varchar(100);uniqueIndex;not null"`
 	Password  string              `gorm:"type:varchar(255);not null"`
 	Bio       *string             `gorm:"type:text;default:null"`
-	Post      []post.Post         `gorm:"foreignKey:UserID" json:"posts"`
-	Comment   []comment.Comment   `gorm:"foreignKey:UserID" json:"comments"`
-	Question  []question.Question `gorm:"foreignKey:UserID" json:"questions"`
-	Answer    []answer.Answer     `gorm:"foreignKey:UserID" json:"answer"`
+	Post      []post.Post         `gorm:"foreignKey:UserID; constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"posts"`
+	Comment   []comment.Comment   `gorm:"foreignKey:UserID; constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"comments"`
+	Question  []question.Question `gorm:"foreignKey:UserID; constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"questions"`
+	Answer    []answer.Answer     `gorm:"foreignKey:UserID; constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"answer"`
 }
 
 type UserDto struct {
@@ -32,7 +32,6 @@ type UserDto struct {
 	Name      *string     `gorm:"type:varchar(100);default:null"`
 	Email     string      `gorm:"type:varchar(100);uniqueIndex;not null"`
 	Bio       *string     `gorm:"type:text;default:null"`
-	Post      []post.Post `gorm:"foreignKey:UserID" json:"posts"`
 }
 
 func (u *User) TableName() string {

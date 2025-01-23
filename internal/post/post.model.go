@@ -12,5 +12,5 @@ type Post struct {
 	UserID    uint              `json:"user_id"`
 	CreatedAt time.Time         `json:"created_at"`
 	UpdatedAt time.Time         `json:"updated_at"`
-    Comment   []comment.Comment `gorm:"foreignKey:PostID,constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"comments"`
+	Comment   []comment.Comment `gorm:"foreignKey:PostID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"comments"`
 }
