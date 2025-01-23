@@ -42,7 +42,7 @@ func PostComment(c *gin.Context) {
 
 	newComment.PostID = uint(value)
 
-	if err := CreateComment(&newComment); err != nil {
+	if err := Create(&newComment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":  "Invalid request data",
 			"detail": err.Error(),
@@ -52,5 +52,30 @@ func PostComment(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "Comment posted",
+	})
+}
+
+func DeleteComment(c *gin.Context) {
+	commentID := c.Param("comment_id")
+	convCommentID, err := strconv.ParseUint(commentID, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":  "Invalid request data",
+			"detail": err.Error(),
+		})
+		return
+	}
+
+	err = Delete(&Comment{}, uint(convCommentID))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":  "Failed to delete comment",
+			"detail": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Comment deleted",
 	})
 }

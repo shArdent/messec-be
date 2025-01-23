@@ -5,7 +5,7 @@ import (
 	"github.com/shardent/messec-be/infra/logger"
 )
 
-func CreateComment(model interface{}) error {
+func Create(model interface{}) error {
 	err := database.DB.Create(model).Error
 	if err != nil {
 		logger.Errorf("error, cannot create new comment", err)
@@ -13,7 +13,7 @@ func CreateComment(model interface{}) error {
 	return err
 }
 
-func DeleteComment(model interface{}, commentID uint) error {
+func Delete(model interface{}, commentID uint) error {
 	err := database.DB.Delete(model, commentID).Error
 	if err != nil {
 		logger.Errorf("error, deleting comment")
