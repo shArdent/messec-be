@@ -17,6 +17,6 @@ func RegisterRoutes(r *gin.Engine) {
 	auth.SetupRoutes(v1group)
 	post.SetupRoutes(v1group)
 	comment.SetupRoutes(v1group)
-    question.SetupRoutes(v1group)
-    answer.SetupRoutes(v1group)
+	question.SetupRoutes(v1group)
+	answer.SetupRoutes(v1group)
 }

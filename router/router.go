@@ -1,7 +1,9 @@
 package router
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/shardent/messec-be/infra/middlewares"
 	"github.com/spf13/viper"
 )
 
@@ -13,11 +15,11 @@ func SetupRoutes() *gin.Engine {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	allowedHosts := viper.GetString("ALLOWED_HOSTS")
+	// allowedHosts := viper.GetString("ALLOWED_HOSTS")
 	router := gin.New()
-	router.SetTrustedProxies([]string{allowedHosts})
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
+	router.Use(cors.New(middlewares.CORSMiddlewareLib()))
 
 	RegisterRoutes(router)
 

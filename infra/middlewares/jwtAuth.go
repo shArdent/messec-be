@@ -9,6 +9,10 @@ import (
 
 func JwtAuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		if c.Request.Method == http.MethodOptions {
+			c.Next()
+			return
+		}
 		err := pkg.TokenValid(c)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{
