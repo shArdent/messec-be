@@ -20,16 +20,33 @@ func GetAllUser() ([]UserDto, error) {
 }
 
 func GetUser(model interface{}, ID uint) (int64, error) {
-	result := database.DB.Model(&User{}).First(&model, ID)
+	result := database.DB.
+		Table("user u").
+		Select(`
+            u.id,
+            u.username,
+            u.email,
+            u.name,
+            u.bio,
+            COUNT(DISTINCT p.id) AS post_count,
+            COUNT(DISTINCT q.id) AS question_count
+        `).
+		Joins("LEFT JOIN posts p ON u.id = p.user_id").
+		Joins("LEFT JOIN questions q ON u.id = q.user_id").
+		Where("u.id = ?", ID).
+		Group("u.id").
+		Scan(&model)
 
 	return result.RowsAffected, result.Error
 }
 
-func GetUserByQuery(query string) ([]UserDto, error) {
-	var users []UserDto
+func GetUserByQuery(query string) ([]UserQueryDto, error) {
+	var users []UserQueryDto
 
 	formattedQuery := fmt.Sprint("%", query, "%")
 	result := database.DB.Model(&User{}).Where("email LIKE ?", formattedQuery).Or("username LIKE ?", formattedQuery).Find(&users)
+
+	fmt.Printf("%s", formattedQuery)
 
 	if result.RowsAffected == 0 {
 		return nil, fmt.Errorf("No users found matching query %s", query)

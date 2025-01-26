@@ -9,5 +9,5 @@ func SetupRoutes(g *gin.RouterGroup) {
 	user := g.Group("/users")
 	user.GET("/", GetByQuery)
 	user.GET("/:user_id", Get)
-	user.PUT("/", middlewares.JwtAuthMiddleware(), Update)
+    user.PUT("/", middlewares.JwtAuthMiddleware(), Update)
 }
