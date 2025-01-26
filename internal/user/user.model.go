@@ -26,8 +26,6 @@ type User struct {
 
 type UserDto struct {
 	ID        uint        `gorm:"primary_key" json:"id"`
-	CreatedAt time.Time   `json:"created_at"`
-	UpdatedAt time.Time   `json:"updated_at"`
     Username  *string     `gorm:"type:varchar(100);uniqueIndex;default:null" json:"username"`
 	Name      *string     `gorm:"type:varchar(100);default:null" json:"name"`
 	Email     string      `gorm:"type:varchar(100);uniqueIndex;not null" json:"email"`

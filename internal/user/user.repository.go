@@ -37,3 +37,8 @@ func GetUserByQuery(query string) ([]UserDto, error) {
 
 	return users, result.Error
 }
+
+func UpdateUser(exist, userPayload interface{}) error {
+	err := database.DB.Model(exist).Updates(userPayload).Error
+	return err
+}
