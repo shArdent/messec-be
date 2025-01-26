@@ -13,11 +13,11 @@ type User struct {
 	ID        uint                `gorm:"primary_key" json:"id"`
 	CreatedAt time.Time           `json:"created_at"`
 	UpdatedAt time.Time           `json:"updated_at"`
-	Username  *string             `gorm:"type:varchar(100);uniqueIndex;default:null"`
-	Name      *string             `gorm:"type:varchar(100);default:null"`
-	Email     string              `gorm:"type:varchar(100);uniqueIndex;not null"`
-	Password  string              `gorm:"type:varchar(255);not null"`
-	Bio       *string             `gorm:"type:text;default:null"`
+	Username  *string             `gorm:"type:varchar(100);uniqueIndex;default:null" json:"username"`
+	Name      *string             `gorm:"type:varchar(100);default:null" json:"name"`
+	Email     string              `gorm:"type:varchar(100);uniqueIndex;not null" json:"email"`
+	Password  string              `gorm:"type:varchar(255);not null" json:"password"`
+	Bio       *string             `gorm:"type:text;default:null" json:"bio"`
 	Post      []post.Post         `gorm:"foreignKey:UserID; constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"posts"`
 	Comment   []comment.Comment   `gorm:"foreignKey:UserID; constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"comments"`
 	Question  []question.Question `gorm:"foreignKey:UserID; constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"questions"`
@@ -25,13 +25,20 @@ type User struct {
 }
 
 type UserDto struct {
-	ID        uint        `gorm:"primary_key" json:"id"`
-	CreatedAt time.Time   `json:"created_at"`
-	UpdatedAt time.Time   `json:"updated_at"`
-	Username  *string     `gorm:"type:varchar(100);uniqueIndex;default:null"`
-	Name      *string     `gorm:"type:varchar(100);default:null"`
-	Email     string      `gorm:"type:varchar(100);uniqueIndex;not null"`
-	Bio       *string     `gorm:"type:text;default:null"`
+	ID            uint    `gorm:"primary_key" json:"id"`
+	Username      *string `gorm:"type:varchar(100);uniqueIndex;default:null" json:"username"`
+	Name          *string `gorm:"type:varchar(100);default:null" json:"name"`
+	Email         string  `gorm:"type:varchar(100);uniqueIndex;not null" json:"email"`
+	Bio           *string `gorm:"type:text;default:null" json:"bio"`
+	PostCount     int     `json:"post_count"`
+	QuestionCount int     `json:"question_count"`
+}
+
+type UserQueryDto struct {
+	ID       uint    `gorm:"primary_key" json:"id"`
+	Username *string `gorm:"type:varchar(100);uniqueIndex;default:null" json:"username"`
+	Name     *string `gorm:"type:varchar(100);default:null" json:"name"`
+	Email    string  `gorm:"type:varchar(100);uniqueIndex;not null" json:"email"`
 }
 
 func (u *User) TableName() string {
