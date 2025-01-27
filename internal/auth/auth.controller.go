@@ -87,7 +87,7 @@ func Login(c *gin.Context) {
 
 	c.SetCookie("access_token", token, int(time.Hour.Seconds()*24), "/", "localhost", false, true)
 
-	c.JSON(http.StatusOK, gin.H{"status": true, "data": map[string]any{"id": existUser.ID, "email": existUser.Email, "username": existUser.Username}, "token": token, "message": "Berhasil login"})
+	c.JSON(http.StatusOK, gin.H{"status": true, "data": map[string]any{"id": existUser.ID, "email": existUser.Email, "username": existUser.Username}, "message": "Berhasil login"})
 }
 
 func Logout(c *gin.Context) {
