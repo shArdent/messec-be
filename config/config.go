@@ -11,18 +11,14 @@ type Configuration struct {
 }
 
 func SetupConfig() error {
-    var configuration *Configuration
-	viper.SetConfigFile(".env")
-	if err := viper.ReadInConfig(); err != nil {
-		logger.Errorf("Error reading config file %s", err)
+	var configuration *Configuration
+
+	viper.AutomaticEnv()
+
+	if err := viper.Unmarshal(&configuration); err != nil {
+		logger.Errorf("Error decoding config: %v", err)
 		return err
 	}
 
-	err := viper.Unmarshal(&configuration)
-    if err != nil {
-        logger.Errorf("error to decode, %v", err)
-        return err
-    }
-
-    return nil
+	return nil
 }
